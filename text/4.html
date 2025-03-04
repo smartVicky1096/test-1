@@ -1,0 +1,27 @@
+<script>
+let rows = 5;
+let i = 1;
+
+while (i <= rows) {
+    let j = 1;
+
+    while (j <= rows) {
+        if (i == 1) {
+            document.write(j);  // First row prints 12345
+        } else if (j == 1) {
+            document.write(i);  // First column prints the row number
+        } else if (j == rows) {
+            document.write(i);  // Last column prints 5
+        } else if (j == rows ) {
+            document.write(j);  // Diagonal position prints decreasing numbers
+        } else {
+            document.write("&nbsp;&nbsp;");  // Print spaces elsewhere
+        }
+        j++;
+    }
+    document.write("<br>");
+    i++;
+}
+
+
+</script>

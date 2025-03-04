@@ -1,0 +1,25 @@
+<script>
+    let a,i=0,lasttwoDigits,digits,product;
+        a = parseInt(prompt("Enter A:"));
+        digits = a; //1234
+    
+        lasttwoDigits = a % 100;  //34
+      
+        while(a>0)
+        { 
+            a = parseInt(a / 10);
+            i++;
+        }
+        let digitCount = i; //4
+        
+        let firstDigit = parseInt(digits /  Math.pow( 10,digitCount - 1));   //1  // 1234/1000  432
+        let lastDigit = parseInt(lasttwoDigits % 10); //4
+    
+        
+        product = Math.pow(10, digitCount - 1); //1000
+        let middleNumber = parseInt(digits % product / 10); // 1234%(1000/10) 43
+        
+        document.write("Given Numbers:"," ", digits, "<br>");
+        document.write("Swap Numbers:"," ", lastDigit + "" + middleNumber + "" + firstDigit);
+    
+    </script>

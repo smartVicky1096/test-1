@@ -1,0 +1,43 @@
+<script>
+    let firstNumber = 1;
+    let lastNumber =  5;
+
+    while(firstNumber <= lastNumber)
+    {
+        let secondNumber = 5;
+
+       while(secondNumber > firstNumber)
+       {
+        document.write("&nbsp;&nbsp;");
+        secondNumber--
+       }
+
+       let thirdNumber = 1;
+       while(thirdNumber <= firstNumber)
+       {
+        if(thirdNumber===1 || lastNumber===firstNumber)
+        {
+        document.write(thirdNumber);
+        }
+        else{
+            document.write("&nbsp;&nbsp;");
+        }
+        thirdNumber++
+       }
+
+       let fourthNumber = firstNumber - 1;
+
+       while(fourthNumber >= 1)
+       {
+        if(fourthNumber===1 || lastNumber===firstNumber){
+            document.write(fourthNumber); 
+        }
+        else{
+            document.write("&nbsp;&nbsp;");
+        }
+        fourthNumber--
+       }
+       document.write("<br> <br>");
+       firstNumber++
+    }
+</script>
