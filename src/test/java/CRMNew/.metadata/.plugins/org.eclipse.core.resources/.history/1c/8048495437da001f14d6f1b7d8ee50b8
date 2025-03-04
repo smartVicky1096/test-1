@@ -1,0 +1,84 @@
+package com.SS;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+public class Test_DummyDataDriven {
+
+	 public static void main(String[] args) throws IOException {
+	        WebDriverManager.edgedriver().setup();
+	        WebDriver driver = new EdgeDriver();
+	        
+	        // Set implicit wait globally
+	        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+
+	        // Load the Excel file
+	        File file = new File("C:\\Users\\HP\\Desktop\\SS new.xls");
+	        FileInputStream inputstream = new FileInputStream(file);
+	        HSSFWorkbook wb = new HSSFWorkbook(inputstream);
+	        HSSFSheet sheet = wb.getSheet("sheet1");
+	        
+	        // Get the row count
+	        int rowcount = sheet.getLastRowNum(); // Correct row count
+	        
+	        for (int i = 1; i <= rowcount; i++) { // Start from row 1 (assuming row 0 is a header)
+	            driver.get("http://13.127.52.33:5173/#");
+
+	            // Click on Signup
+	            WebElement Signup = driver.findElement(By.xpath("//*[@id=\"root\"]/div/div[1]/div/div[2]/div[2]/div/div[1]/a[2]/strong"));
+	            Signup.click();
+
+	            // Read data from the Excel sheet
+	            String StudentName = sheet.getRow(i).getCell(0).getStringCellValue();
+	            String StudentMobileNumber = String.valueOf((long) sheet.getRow(i).getCell(1).getNumericCellValue());
+	            String Gender = sheet.getRow(i).getCell(2).getStringCellValue();
+	            String SchoolName = sheet.getRow(i).getCell(4).getStringCellValue();
+	            String StudentGrade = sheet.getRow(i).getCell(5).getStringCellValue();
+	            String Emailaddress = sheet.getRow(i).getCell(6).getStringCellValue();
+	            String ParentMobileNumber = String.valueOf((long) sheet.getRow(i).getCell(7).getNumericCellValue());
+	            String City = sheet.getRow(i).getCell(9).getStringCellValue();
+	            String StudentBoard = sheet.getRow(i).getCell(10).getStringCellValue();
+	            String Password = sheet.getRow(i).getCell(11).getStringCellValue();
+
+	            System.out.println(StudentName + "," + StudentMobileNumber + "," + Gender + "," + SchoolName + "," +
+	                StudentGrade + "," + Emailaddress + "," + ParentMobileNumber + "," + City + "," + StudentBoard + "," + Password);
+
+	            // Fill form fields
+	            driver.findElement(By.xpath("//input[@id='student_name']")).sendKeys(StudentName);
+	            driver.findElement(By.xpath("//input[@id='student_mobile_number']")).sendKeys(StudentMobileNumber);
+
+	            WebElement SSGender = driver.findElement(By.xpath("//select[@id='student_grade']"));
+	            SSGender.sendKeys(Gender);
+
+	            WebElement ssCity = driver.findElement(By.xpath("//select[@id='city_name']"));
+	            ssCity.sendKeys(City);
+
+	            WebElement ssSchoolName = driver.findElement(By.xpath("//select[@id='school_name']"));
+	            ssSchoolName.sendKeys(SchoolName);
+
+	            driver.findElement(By.xpath("//input[@id='email_address']")).sendKeys(Emailaddress);
+	            driver.findElement(By.xpath("//input[@id='parent_mobile_number']")).sendKeys(ParentMobileNumber);
+	            driver.findElement(By.xpath("//input[@id='student_board']")).sendKeys(StudentBoard);
+	            driver.findElement(By.xpath("//input[@id='password']")).sendKeys(Password);
+
+	            // Optionally click the submit button
+	            // driver.findElement(By.xpath("//button[@id='submit_button']")).click();
+	        }
+
+	        // Close the browser and workbook
+	        driver.quit();
+	        wb.close();
+	    }
+	}

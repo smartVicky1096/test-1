@@ -1,0 +1,62 @@
+package com.Crm;
+
+import java.time.Duration;
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Test_Inc_Employee {
+	
+@Test(enabled=false)
+	public void EmployeeHeader() {
+		
+		WebDriverManager.edgedriver().setup();
+		WebDriver driver = new EdgeDriver();
+		driver.manage().timeouts().implicitlyWait(120,TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		driver.get("https://ktnl-test.ktig.info/login/");
+		driver.findElement(By.xpath("//input[@id='mobile_number']")).sendKeys("6380751040");
+		driver.findElement(By.xpath("//input[@id='password']")).sendKeys("Thiagu@123");
+		driver.findElement(By.xpath("//*[@id=\"loginForm\"]/div[4]")).click();
+		driver.findElement(By.xpath("//*[@id=\"flaptSideNav\"]/div/nav/ul/li[7]/a")).click();
+		driver.findElement(By.xpath("//*[@id=\"flaptSideNav\"]/div/nav/ul/li[7]/ul/li[2]/a")).click();
+		WebElement EmployeeText= driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div/div/div/h4"));
+		String headingText= EmployeeText.getText();
+		System.out.println("The text recived is :"+headingText);
+        driver.quit();
+		
+	}
+@Test(enabled=true )
+public void EmployeeCreate() {
+	WebDriverManager.edgedriver().setup();
+	WebDriver driver = new EdgeDriver();
+	driver.manage().timeouts().implicitlyWait(120,TimeUnit.SECONDS);
+	driver.manage().window().maximize();
+	driver.get("https://ktnl-test.ktig.info/login/");
+	driver.findElement(By.xpath("//input[@id='mobile_number']")).sendKeys("6380751040");
+	driver.findElement(By.xpath("//input[@id='password']")).sendKeys("Thiagu@123");
+	driver.findElement(By.xpath("//*[@id=\"loginForm\"]/div[4]")).click();
+	driver.findElement(By.xpath("//*[@id=\"flaptSideNav\"]/div/nav/ul/li[7]/a")).click();
+	driver.findElement(By.xpath("//*[@id=\"flaptSideNav\"]/div/nav/ul/li[7]/ul/li[2]/a")).click();
+	driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[2]/div[1]/div/div/div[1]/div/div/div/div/a/button")).click();
+	driver.findElement(By.xpath("//input[@id='employee_name']")).sendKeys("Rekha");
+	driver.findElement(By.xpath("//input[@id='employee_email']")).sendKeys("rekha@cogniitec.com");
+	driver.manage().timeouts().implicitlyWait(120,TimeUnit.SECONDS);
+	driver.findElement(By.xpath("//input[@id='employee_mobile_number']")).sendKeys("9698304551");
+	driver.findElement(By.xpath("//textarea[@id='employee_address']")).sendKeys("21/A KG Layout,1st Street,Kuzhandai Gounder Street,Ukkadam,Coimbatore - 641001");
+	WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+	WebElement stateDropdown = driver.findElement(By.xpath("//*[@id=\"EmployeeForm\"]/div[1]/div[6]/div/span/span[1]/span"));
+   stateDropdown.click();
+   WebElement searchBox = driver.findElement(By.xpath("/html/body/span/span/span[1]/input"));
+   searchBox.sendKeys("Tamil Nadu");
+   WebElement option = driver.findElement(By.xpath("//li[contains(text(),'Tamil Nadu')]"));
+   option.click();
+}
+}

@@ -1,0 +1,48 @@
+package com.Crm;
+
+import java.util.concurrent.TimeUnit;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.testng.annotations.Test;
+
+import io.github.bonigarcia.wdm.WebDriverManager;
+
+public class Test_FailedCases {
+
+	
+	@Test(enabled=true)
+	public void EditSMRIT() {
+		WebDriverManager.edgedriver().setup();
+		WebDriver driver = new EdgeDriver();
+		driver.manage().timeouts().implicitlyWait(120,TimeUnit.SECONDS);
+		driver.manage().window().maximize();
+		driver.get("https://ktnl-test.ktig.info/login/");
+		driver.findElement(By.xpath("//input[@id='mobile_number']")).sendKeys("6380751040");
+		driver.findElement(By.xpath("//input[@id='password']")).sendKeys("Thiagu@123");
+		driver.manage().timeouts().implicitlyWait(120,TimeUnit.SECONDS);
+		driver.findElement(By.xpath("//*[@id=\"loginForm\"]/div[4]")).click();
+		driver.findElement(By.xpath("//*[@id=\"flaptSideNav\"]/div/nav/ul/li[7]/a")).click();
+		driver.findElement(By.xpath("//*[@id=\"flaptSideNav\"]/div/nav/ul/li[7]/ul/li[1]/a")).click();
+		driver.findElement(By.xpath("//*[@id=\"datatable\"]/tbody/tr[3]/td[6]/a[2]")).click();
+		//driver.findElement(By.xpath("//input[@id='pincode']")).clear();
+		//driver.findElement(By.xpath("//input[@id='pincode']")).sendKeys("600035");
+		By pincodeLocator= By.xpath("//input[@id='pincode']");
+		driver.findElement(pincodeLocator).clear();
+		// Enter the new pincode using JavaScriptExecutor (to ensure input is registered)
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("arguments[0].value='600035';", driver.findElement(pincodeLocator));
+        
+        // Optionally, trigger a change event to ensure the application recognizes the update
+        js.executeScript("arguments[0].dispatchEvent(new Event('change'));", driver.findElement(pincodeLocator));
+        
+        // (Optional) Add a step to save the changes, depending on the application behavior
+        driver.findElement(By.xpath("//button[text()='Save']")).click();
+        String updatedPincode = driver.findElement(pincodeLocator).getAttribute("value");
+        assert updatedPincode.equals("600035") : "Pincode update failed!";
+	}
+}
+
+
